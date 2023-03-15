@@ -1,180 +1,125 @@
-<header>
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<nav>
-	  <ul>
-		<li><a href="#">Domů</a></li>
-		<li><a href="#">O nás</a></li>
-		<li><a href="#">Pizza menu</a></li>
-		<li><a href="#">Kontakt</a></li>
-	  </ul>
-	  <div class="hamburger">
-		<span></span>
-		<span></span>
-		<span></span>
-	  </div>
-	</nav>
-  </header>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Humr - Testovací stránka</title>
+    <style>
+      /* styly pro menu bar */
+      header {
+        background-color: #F8F8F8;
+        border-bottom: 1px solid #E7E7E7;
+        padding: 10px 0;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 9999;
+      }
 
-  <style>
-	header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #333;
-  color: #fff;
-  padding: 10px;
-}
+      nav ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        overflow: hidden;
+        background-color: #F8F8F8;
+      }
 
-nav ul {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
+      nav ul li {
+        float: left;
+      }
 
-nav ul li a {
-  display: block;
-  padding: 10px;
-  color: #fff;
-  text-decoration: none;
-}
+      nav ul li a {
+        display: block;
+        padding: 10px;
+        color: #333;
+        font-size: 18px;
+        text-align: center;
+        text-decoration: none;
+      }
 
-nav ul li a:hover {
-  background-color: #555;
-}
+      nav ul li a:hover {
+        background-color: #E7E7E7;
+      }
 
-.hamburger {
-  display: none;
-  cursor: pointer;
-  margin-right: 10px;
-}
+      /* styly pro hamburger */
+      .hamburger {
+        display: none;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 99999;
+      }
 
-.hamburger span {
-  display: block;
-  background-color: #fff;
-  height: 3px;
-  margin-bottom: 5px;
-  position: relative;
-  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
-}
+      .hamburger span {
+        display: block;
+        width: 25px;
+        height: 3px;
+        margin: 5px 0;
+        background: #333;
+        border-radius: 3px;
+        transition: transform 0.4s ease;
+      }
 
-.hamburger span:first-child {
-  transform-origin: left center;
-}
+      /* animace hamburgeru */
+      .hamburger.clicked span:nth-child(1) {
+        transform: rotate(-45deg) translate(-9px, 6px);
+      }
 
-.hamburger span:last-child {
-  transform-origin: left center;
-}
+      .hamburger.clicked span:nth-child(2) {
+        opacity: 0;
+      }
 
-@media (max-width: 768px) {
-  nav ul {
-    flex-direction: column;
-    background-color: #444;
-    position: absolute;
-    top: 70px;
-    left: 0;
-    right: 0;
-    height: calc(100vh - 70px);
-    display: none;
-  }
+      .hamburger.clicked span:nth-child(3) {
+        transform: rotate(45deg) translate(-8px, -8px);
+      }
 
-  nav ul li {
-    flex: 1;
-    text-align: center;
-    margin-top: 10px;
-  }
+      /* responzivní design */
+      @media screen and (max-width: 768px) {
+        nav ul {
+          display: none;
+        }
 
-  nav ul li a {
-    padding: 0;
-    font-size: 18px;
-    color: #fff;
-  }
+        .hamburger {
+          display: block;
+        }
 
-  nav ul li a:hover {
-    background-color: #555;
-  }
+        nav ul li {
+          float: none;
+          display: block;
+        }
 
-  .hamburger {
-    display: block;
-  }
+        nav ul li a {
+          text-align: left;
+        }
 
-  .active {
-    display: block;
-  }
+        .hamburger.clicked ~ nav ul {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="#">Domů</a></li>
+          <li><a href="#">O nás</a></li>
+          <li><a href="#">Pizza menu</a></li>
+          <li><a href="#">Kontakt</a></li>
+        </ul>
+        <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </nav>
+    </header>
 
-  .hamburger span:first-child {
-    transform: rotate(45deg);
-  }
-
-  .hamburger span:last-child {
-    transform: rotate(-45deg);
-  }
-
-  .hamburger span:nth-child(2) {
-    opacity: 0;
-  }
-  .hamburger {
-  display: none;
-}
-
-@media screen and (max-width: 768px) {
-  .hamburger {
-    display: block;
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    cursor: pointer;
-  }
-  .hamburger span {
-    display: block;
-    width: 30px;
-    height: 3px;
-    margin: 6px auto;
-    background-color: #333;
-    border-radius: 3px;
-    transition: all 0.3s ease-in-out;
-  }
-  .menu {
-    display: none;
-    position: absolute;
-    top: 50px;
-    left: 0;
-    width: 100%;
-    background-color: #fff;
-    padding: 0;
-    margin: 0;
-    text-align: center;
-    z-index: 1;
-  }
-  .menu li {
-    display: block;
-    margin: 0;
-    padding: 10px 0;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-  }
-  .menu li a {
-    display: block;
-    color: #333;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: bold;
-  }
-  .menu li a:hover {
-    color: #f00;
-  }
-}
-}
-
-
-  </style>
-
-
-<script>
-  $(document).ready(function() {
-    $('.hamburger').click(function() {
-      $('ul').toggleClass('show');
-    });
-  });
-</script>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $('.hamburger').click(function() {
+          $(this).toggleClass('clicked');
+        });
+      });
+    </script>
+  </body>
