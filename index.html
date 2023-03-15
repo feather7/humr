@@ -1,125 +1,87 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Humr - Testovací stránka</title>
-    <style>
-      /* styly pro menu bar */
-      header {
-        background-color: #F8F8F8;
-        border-bottom: 1px solid #E7E7E7;
-        padding: 10px 0;
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 9999;
-      }
-
-      nav ul {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        overflow: hidden;
-        background-color: #F8F8F8;
-      }
-
-      nav ul li {
-        float: left;
-      }
-
-      nav ul li a {
-        display: block;
-        padding: 10px;
-        color: #333;
-        font-size: 18px;
-        text-align: center;
-        text-decoration: none;
-      }
-
-      nav ul li a:hover {
-        background-color: #E7E7E7;
-      }
-
-      /* styly pro hamburger */
-      .hamburger {
-        display: none;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        z-index: 99999;
-      }
-
-      .hamburger span {
-        display: block;
-        width: 25px;
-        height: 3px;
-        margin: 5px 0;
-        background: #333;
-        border-radius: 3px;
-        transition: transform 0.4s ease;
-      }
-
-      /* animace hamburgeru */
-      .hamburger.clicked span:nth-child(1) {
-        transform: rotate(-45deg) translate(-9px, 6px);
-      }
-
-      .hamburger.clicked span:nth-child(2) {
-        opacity: 0;
-      }
-
-      .hamburger.clicked span:nth-child(3) {
-        transform: rotate(45deg) translate(-8px, -8px);
-      }
-
-      /* responzivní design */
-      @media screen and (max-width: 768px) {
-        nav ul {
-          display: none;
-        }
-
-        .hamburger {
-          display: block;
-        }
-
-        nav ul li {
-          float: none;
-          display: block;
-        }
-
-        nav ul li a {
-          text-align: left;
-        }
-
-        .hamburger.clicked ~ nav ul {
-          display: block;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <header>
-      <nav>
-        <ul>
-          <li><a href="#">Domů</a></li>
-          <li><a href="#">O nás</a></li>
-          <li><a href="#">Pizza menu</a></li>
-          <li><a href="#">Kontakt</a></li>
-        </ul>
-        <div class="hamburger">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </nav>
-    </header>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-      $(document).ready(function() {
-        $('.hamburger').click(function() {
-          $(this).toggleClass('clicked');
-        });
-      });
-    </script>
-  </body>
+<header>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<nav>
+	  <ul>
+		<li><a href="#">Domů</a></li>
+		<li><a href="#">O nás</a></li>
+		<li><a href="#">Pizza menu</a></li>
+		<li><a href="#">Kontakt</a></li>
+	  </ul>
+	  <div class="hamburger">
+		<span></span>
+		<span></span>
+		<span></span>
+	  </div>
+	</nav>
+  </header>
+  
+  <style>
+  nav ul {
+	display: none;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+  }
+  
+  nav.active ul {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+  }
+  
+  .hamburger {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+  }
+  
+  .hamburger span {
+	display: block;
+	width: 30px;
+	height: 3px;
+	margin: 5px 0;
+	background-color: black;
+	transition: all 0.3s ease-in-out;
+  }
+  
+  .hamburger.active span:nth-child(2) {
+	opacity: 0;
+  }
+  
+  .hamburger.active span:nth-child(1) {
+	transform: translateY(8px) rotate(45deg);
+  }
+  
+  .hamburger.active span:nth-child(3) {
+	transform: translateY(-8px) rotate(-45deg);
+  }
+  
+  @media screen and (min-width: 768px) {
+	nav ul {
+	  display: flex;
+	  margin: 0 auto;
+	  justify-content: center;
+	}
+  
+	nav li {
+	  margin: 0 20px;
+	}
+  
+	.hamburger {
+	  display: none;
+	}
+  }
+  </style>
+  
+  <script>
+	$(document).ready(function() {
+	  $('.hamburger').click(function() {
+		$('nav').toggleClass('active');
+		$(this).toggleClass('active');
+	  });
+	});
+  </script>
+  
