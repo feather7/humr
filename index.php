@@ -933,7 +933,7 @@ $(document).ready(function(){
     input = document.getElementById("filtr");
     filterValue = input.value.toUpperCase();
     ul = document.getElementById("show-todo-section");
-    li = ul.getElementsByClassName("svorka");
+    li = ul.getElementsByClassName("todo-item");
         
         for (i = 0 ; i < li.length ; i++){
 
