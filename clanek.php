@@ -1,37 +1,38 @@
 <?php
-$servername = "localhost"; // název serveru, na kterém běží vaše databáze
-$username = "root"; // vaše uživatelské jméno pro přístup k databázi
-$password = ""; // vaše heslo pro přístup k databázi
-$dbname = "ekobit"; // název vaší databáze
+ob_start();
 
-// připojení k databázi
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Připojení k databázi se nezdařilo: " . $conn->connect_error);
-}
+require_once "temp/header.php";
+require_once "temp/menu.php";
 
-// získání dat z URL
-$clanek = str_replace(".php", "", $_GET['clanek']);
+$clanek = str_replace(".php","",$_GET['clanek']);
 $kategorie = $_GET["kategorie"];
 
-// příprava SQL dotazu pro načtení článku z databáze
-$sql = "SELECT * FROM clanky WHERE url = '$clanek'";
-if (!empty($kategorie)) {
-    $sql .= " AND tag_url = '$kategorie'";
+$json = file_get_contents('./clanky.json');
+$json_data = json_decode($json,true);
+
+
+if(!empty($kategorie)){
+    foreach ($json_data as $key => $value) {
+        if($json_data[$key]["url"] == $clanek && $json_data[$key]["tag_url"] == $kategorie){
+            $thisClanek = $json_data[$key];
+        }
+    }
+}else{
+    foreach ($json_data as $key => $value) {
+        if($json_data[$key]["url"] == $clanek){
+            $thisClanek = $json_data[$key];
+        }
+    }
 }
 
-$result = $conn->query($sql);
 
-// zpracování výsledků dotazu
-if ($result->num_rows > 0) {
-    $thisClanek = $result->fetch_assoc();
-} else {
+if($thisClanek == NULL or empty($thisClanek)){
     header("Location: /clanky");
-    exit();
 }
 
-// tvorba articleGraph
-$buffer = ob_get_contents();
+$similar = explode(',', $thisClanek['similar']);
+
+$buffer=ob_get_contents();
 ob_end_clean();
 
 $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -56,8 +57,8 @@ $articleGraph = '
            "url": "https://www.ekologickyuklid.eu/",
            "logo": "https://www.ekologickyuklid.eu/img/ekobit_logo.png"
        },
-   "datePublished": "'.$thisClanek['datum'].'",
-   "dateModified": "'.$thisClanek['datum'].'"
+   "datePublished": "'.$thisClanek['date-html'].'",
+   "dateModified": "'.$thisClanek['date-html'].'"
    }
    </script>
    ';
@@ -96,7 +97,7 @@ echo $buffer;
                     <img src="<?= $thisClanek['image'] ?>" alt="<?= $thisClanek['topic'] ?>" class="clanekImg">
                     <div class="d-flex justify-content-between align-items-center mt-4 mb-4">
                         <p class="textGreyCompany dateClanky text-left">
-                            <time datetime="<?= $thisClanek['datum'] ?>" pubdate="pubdate>">
+                            <time datetime="<?= $thisClanek['date-html'] ?>" pubdate="pubdate>">
                                 Publikováno <?= $thisClanek['date'] ?>
                             </time>
                         </p>
@@ -146,8 +147,12 @@ echo $buffer;
 
                 ?>
 
+
+
                 <a href="<?php echo $urlBtn; ?>"  class="btn btn-primary link-move btn-dezinfekce no-printed mt-5"><?php echo $titleBtn; ?></a>
-           
+
+
+
             </article>
         </div>
     </div>
